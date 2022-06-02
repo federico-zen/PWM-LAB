@@ -1,0 +1,22 @@
+.carousel-item .img-fluid {
+    width: 100%;
+  }
+  
+  /* 
+    anchors are inline so you need ot make them block to go full width
+    */
+  .carousel-item a {
+    display: block;
+    width: 100%;
+  }
+  
+  .carousel {
+    margin-bottom: 3em;
+  }
+  
+  
+  
+  .carousel-img {
+    height: 600px;
+  }
+  

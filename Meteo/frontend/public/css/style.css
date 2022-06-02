@@ -1,0 +1,73 @@
+/* BUTTON*/
+.btn-secondary:hover {
+  color: black;
+  background-color: #ffc400;
+}
+
+/* END BUTTON*/
+
+/* CARD*/
+.card {
+  width: 20rem;
+  text-align: center;
+  border-color: black;
+  margin: 0 auto;
+  margin-bottom: 20px;
+}
+
+.col-lg-4 {
+  text-align: center;
+}
+
+/* END CARD*/
+
+/* FOOTER*/
+.footer-div {
+  background-color: #A4A0A3;
+}
+
+/* END FOOTER*/
+
+/* DARK MODE SWITCH */
+#divSwitchMode {
+  bottom: 1rem;
+  left: 1rem;
+
+}
+
+/* END DARK MODE SWITCH */
+
+.weather-icon {
+  background-color: #6c757d;
+  border-radius: 10px;
+  width: 50px;
+  height: 50px;
+}
+
+.weather-info-container {
+
+  display: inline-grid;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+.weather-info {
+  text-align: center;
+}
+
+.navbar {
+  font-size: 1.2em;
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+}
+
+.box {
+  background-color: rgba(0, 0, 0, .5);
+  color: #fff;
+  width: 20%;
+  margin: 0 auto;
+  border-radius: 20px;
+}

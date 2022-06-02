@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="it">
+
+<head>
+  <!-- Required meta tags -->
+  <title> My Meteo </title>
+  <meta charset="utf-8">
+  <meta name="Description" CONTENT="Il Meteo della tua città direttamente sul tuo smartphone , tablet o PC">
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="icon" type="image/x-icon" href="/img/icons/favicon.ico">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/carousel.css">
+
+  <script type="application/ld+json">
+    {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "My Meteo",
+    "description": "Il Meteo della tua città direttamente sul tuo smartphone , tablet o PC",
+    "publisher": {
+        "@type": "Person",
+        "name": "Federico Zenatti"
+    }
+}
+  </script>
+
+</head>
+
+<body>
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light  ">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">
+          <img src="/img/icons/favicon.ico" alt="" width="30" height="24" class="d-inline-block align-text-top">
+          My Meteo</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/">HOME</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link " aria-current="page" href="/map">MAP</a>
+            </li>
+
+            <li class="nav-item">
+
+            </li>
+
+
+
+          </ul>
+          <form class="d-flex" action="/city" method="GET">
+            <input class="form-control me-2" name="city" type="search" placeholder="Cerca Citt&agrave;"
+              aria-label="Cerca Citt&agrave;">
+            <button class="btn btn-outline-warning" type="submit">Cerca </button>
+          </form>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <div id="carouselExampleCaptions" class="carousel slide h-50" data-bs-ride="carousel">
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
+          aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+          aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+          aria-label="Slide 3"></button>
+      </div>
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="img/milano.jpg" class="d-block w-100 img-fluid carousel-img" alt="...">
+          <div class="carousel-caption d-none d-md-block ">
+            <div class="box">
+              <h5>Milano</h5>
+              <p id="temp-milano-slider"> </p>
+            </div>
+
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="img/sidney.jpg" class="d-block w-100 img-fluid carousel-img" alt="...">
+          <div class="carousel-caption d-none d-md-block">
+            <div class="box">
+              <h5>Sindey</h5>
+              <p id="temp-sidney-slider"></p>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="img/londra.jpg" class="d-block w-100 img-fluid carousel-img" alt="...">
+          <div class="carousel-caption d-none d-md-block">
+            <div class="box">
+              <h5>Londra</h5>
+              <p id="temp-londra-slider"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+        data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+        data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+    <!-- Fine Carosello-->
+    <div class="container marketing">
+      <div class="row featurette" style="text-align: center;">
+        <!-- Current Position -->
+        <div>
+          <h2 class="featurette-heading">Posizione Corrente <i class="bi bi-geo-alt-fill"></i></h2>
+          <h4 id="current-city"> Citt&agrave; Corrente </h4>
+          <div id="temp"> </div>
+          <img  src="img/not-found.png" id="icon" class="weather-icon" alt="weather-icon">
+          <div id="description"></div>
+          <div id="humidity"> </div>
+          <div id="wind"> </div>
+        </div>
+      </div>
+
+      <hr class="featurette-divider">
+
+      <div class="row">
+        <div class="col-lg-4">
+          <img class="rounded-circle" src="img/milano.jpg" alt="Milano" width="140" height="140">
+          <h2>Milano</h2>
+          <p id=temp-milano></p>
+          <p><a class="btn btn-secondary" href="#">Piu dettagli »</a></p>
+
+
+        </div>
+        <div class="col-lg-4">
+          <img class="rounded-circle" src="img/sidney.jpg" alt="Sidney" width="140" height="140">
+          <h2>Sidney</h2>
+          <p id=temp-sidney></p>
+          <p><a class="btn btn-secondary" href="#">Piu dettagli »</a></p>
+
+        </div>
+        <div class="col-lg-4">
+          <img class="rounded-circle" src="img/londra.jpg" alt="Londra" width="140" height="140">
+          <h2>Londra</h2>
+          <p id=temp-londra></p>
+          <p><a class="btn btn-secondary" href="#">Piu dettagli »</a></p>
+
+        </div>
+      </div>
+
+
+
+
+
+    </div>
+
+
+
+    <div class="position-fixed py-2 px-3 rounded-pill bg-dark text-light" id="divSwitchMode">
+      <div class="form-check form-switch pull-right">
+        <input class="form-check-input" type="checkbox" id="darkModeBtn" onclick="selectionMode()">
+        <label id="darkModeLabel" for="darkModeBtn">Dark Mode</label>
+      </div>
+    </div>
+
+
+  </main> <!-- conatiner-->
+
+
+
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
+  
+
+  <!-- Custom JS -->
+  <script src="js/dark-mode.js" ></script>
+  <script src="js/weather-api.js" ></script>
+  <script src="js/index.js" ></script>
+  
+
+</body>
+
+</html>
