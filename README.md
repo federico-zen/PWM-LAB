@@ -1,2 +1,2 @@
 # PWM-LAB
-Esercizi Svolti PWM (2022)
+Progetto PWM (2022)
