@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (cityName != '') {
         response = await getWeatherInfoCity(cityName);
         console.log(response);
-        if (response.data.error==null) { // Richiesta ok
+        if (response.data.error == null) { // Richiesta ok
             var latitude = response.data.coord.lat;
             var longitude = response.data.coord.lon;
             document.getElementById('city').innerHTML = cityName;
@@ -47,7 +47,7 @@ async function showCurrentData(data) {
     const { temp, humidity } = data.main;
     const { speed } = data.wind;
 
-    document.getElementById('temp').innerHTML = "Temperatura :" + temp + "°C";
+    document.getElementById('temp').innerHTML = "Temperatura :" + Math.floor(temp) + "°C";
     document.getElementById('description').innerHTML = description;
     document.getElementById('humidity').innerHTML = "Umidità :" + humidity + "%";
     document.getElementById('wind').innerHTML = "Velocità vento  :" + speed + "km/h";
@@ -74,10 +74,10 @@ function insertHTML(div, forecast, index) {
     var date = new Date(forecast.dt_txt);
     div.innerHTML += `<div id="forecast${index}" class ="forecast col-sm"> 
                         <img src="https://openweathermap.org/img/wn/${weather.icon}.png" class = "weather-icon">
+                        <div>${date.getHours()}:00 </div>
+                        <div> ${date.toLocaleString('it-it', { weekday: 'long' })} </div>
                         <div> Temperatura : ${Math.floor(forecast.main.temp)} °C</div>
                         <div>${weather.description} </div>
-                        <div> ${date.toLocaleString('it-it', { weekday: 'long' })} </div>
-                        <div>${date.getHours()}:00 </div>
                     </div>`;
 }
 

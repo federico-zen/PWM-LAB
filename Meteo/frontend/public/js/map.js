@@ -26,7 +26,7 @@ async function showData(latitude, longitude) {
 
   currentPositionTitle = document.getElementById('current-city');
     currentPositionTitle.innerText = data.name;
-  document.getElementById('temp').innerHTML = "Temperatura :" + temp + "°C";
+  document.getElementById('temp').innerHTML = "Temperatura :" + Math.floor(temp) + "°C";
   document.getElementById('description').innerHTML = description;
   document.getElementById('humidity').innerHTML = "Umidità :" + humidity + "%";
   document.getElementById('wind').innerHTML = "Velocità vento  :" + speed + "km/h";

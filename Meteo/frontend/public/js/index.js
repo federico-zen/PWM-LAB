@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
         currentPositionWeather = document.getElementById('current-temp');
 
         currentPositionTitle.innerText = data.name;
-        document.getElementById('temp').innerHTML = "Temperatura :" + temp + "°C";
+        document.getElementById('temp').innerHTML = "Temperatura :" +  Math.floor(temp) + "°C";
         document.getElementById('description').innerHTML = description;
         document.getElementById('humidity').innerHTML = "Umidità :" + humidity + "%";
         document.getElementById('wind').innerHTML = "Velocità vento  :" + speed + "km/h";
@@ -33,8 +33,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     for (const city of cities){
         var response;
         response = await getWeatherInfoCity(city);
-        document.getElementById(`temp-${response.cityName}`).innerText = response.data.main.temp + "°C";
-        document.getElementById(`temp-${response.cityName}-slider`).innerText = response.data.main.temp + "°C";
+        document.getElementById(`temp-${response.cityName}`).innerText =Math.floor( response.data.main.temp )+ "°C";
+        document.getElementById(`temp-${response.cityName}-slider`).innerText = Math.floor( response.data.main.temp ) + "°C";
     }
 
 });
