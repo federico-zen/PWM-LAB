@@ -1,4 +1,19 @@
-document.addEventListener('DOMContentLoaded', () => {
+
+
+
+document.addEventListener('DOMContentLoaded',async () => {
+
+    //load City
+    var cities = ['milano','sidney','londra'];
+    for (const city of cities){
+        var response;
+        response = await getWeatherInfoCity(city);
+        document.getElementById(`temp-${response.cityName}`).innerText =Math.floor( response.data.main.temp )+ "°C";
+        document.getElementById(`temp-${response.cityName}-slider`).innerText = Math.floor( response.data.main.temp ) + "°C";
+    }
+
+
+
     navigator.geolocation.getCurrentPosition(async position => {
         const { latitude, longitude } = position.coords;
         var data = await getWeatherInfoCoords(latitude, longitude); //get local position weather info
@@ -27,15 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
-document.addEventListener('DOMContentLoaded', async () => {
 
-    var cities = ['milano','sidney','londra'];
-    for (const city of cities){
-        var response;
-        response = await getWeatherInfoCity(city);
-        document.getElementById(`temp-${response.cityName}`).innerText =Math.floor( response.data.main.temp )+ "°C";
-        document.getElementById(`temp-${response.cityName}-slider`).innerText = Math.floor( response.data.main.temp ) + "°C";
-    }
 
-});
+
 
