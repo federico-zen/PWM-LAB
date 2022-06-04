@@ -181,6 +181,20 @@ app.get("/logout", (req, res) => {
 
 });
 
+app.get("/favouriteCities", (req, res) => {
+
+    if(req.session.loggato==true){
+         //Get city of user
+
+        res.render("favCities",{});
+    }else{
+        res.render('login', { error: "Devi Essere Loggato" });
+    }
+
+
+   
+});
+
 //-------------------------------
 
 //API
