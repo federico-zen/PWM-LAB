@@ -5,6 +5,7 @@ const axios = require('axios').default;
 const cookieParser = require("cookie-parser");
 const sessions = require('express-session');
 const MongoClient = require('mongodb').MongoClient;
+var crypto = require('crypto');
 
 require("dotenv").config();
 
@@ -101,7 +102,8 @@ app.post("/auth", (req, res) => {
                 } else {
                     const db = client.db('PWM');
                     const utenti = db.collection('utenti');
-                    var utente = await utenti.findOne({ username: user, password: psw });
+                    const hash = crypto.createHash('sha256').update(psw).digest('hex');
+                    var utente = await utenti.findOne({ username: user, password: hash });
                     
                     if (utente) {
                         //Utente Trovato
@@ -125,9 +127,51 @@ app.post("/auth", (req, res) => {
 
 });
 
-app.post("register",(req,res)=>{
-
+app.post("/register",(req,res)=>{
+    var user = req.body.username;
+    var psw = req.body.password;
+    var cPsw = req.body.confirmPassword;
     
+    if(user && psw && cPsw){
+        if(psw == cPsw){
+            const hash = crypto.createHash('sha256').update(psw).digest('hex');
+            
+
+            MongoClient.connect(mongo_url,
+                {
+                    useNewUrlParser: true,
+                    useUnifiedTopology: true
+                }, async (err, client) => {
+                    if (err) {
+                        res.render("register", { error: "Impossibile connettersi" });
+                    } else {
+                        const db = client.db('PWM');
+                        const utenti = db.collection('utenti');
+                        var utente = await utenti.findOne({username:user});
+
+                        if(utente){
+                            res.render("register",{error:"Username già utilizzato"});
+                        }else{
+                            await utenti.insertOne({username:user,password:hash});
+                            res.render("login",{error:null});
+                        }
+    
+                    }
+    
+                });
+
+
+
+
+
+        }else{
+            res.render("register",{error:"Le password non corrispondono"});
+        }
+
+
+    }else{
+        res.render("register",{error:"Compilare i Campi Necessari"});
+    }
 });
 
 app.get("/logout", (req, res) => {
