@@ -51,20 +51,20 @@ app.get("/map", (req, res) => {
 });
 
 app.get("/login", (req, res) => {
-    if(req.session.loggato==true){
-        
+    if (req.session.loggato == true) {
+
         res.redirect("/");
-    }else{
+    } else {
         res.render('login', { error: null });
     }
-    
+
 });
 
 app.get("/register", (req, res) => {
-    if(req.session.loggato==true){
-        
+    if (req.session.loggato == true) {
+
         res.redirect("/");
-    }else{
+    } else {
         res.render('register', { error: null });
     }
 });
@@ -75,7 +75,7 @@ app.get("/city", (req, res) => {
 });
 
 app.get("/logged", (req, res) => {
-    
+
     if (req.session.loggato == true) {
         var user = req.session.utente;
         res.send({ user: user, loggato: true });
@@ -104,7 +104,7 @@ app.post("/auth", (req, res) => {
                     const utenti = db.collection('utenti');
                     const hash = crypto.createHash('sha256').update(psw).digest('hex');
                     var utente = await utenti.findOne({ username: user, password: hash });
-                    
+
                     if (utente) {
                         //Utente Trovato
                         req.session.utente = utente;
@@ -127,15 +127,15 @@ app.post("/auth", (req, res) => {
 
 });
 
-app.post("/register",(req,res)=>{
+app.post("/register", (req, res) => {
     var user = req.body.username;
     var psw = req.body.password;
     var cPsw = req.body.confirmPassword;
-    
-    if(user && psw && cPsw){
-        if(psw == cPsw){
+
+    if (user && psw && cPsw) {
+        if (psw == cPsw) {
             const hash = crypto.createHash('sha256').update(psw).digest('hex');
-            
+
 
             MongoClient.connect(mongo_url,
                 {
@@ -147,30 +147,30 @@ app.post("/register",(req,res)=>{
                     } else {
                         const db = client.db('PWM');
                         const utenti = db.collection('utenti');
-                        var utente = await utenti.findOne({username:user});
-                        if(utente){
-                            res.render("register",{error:"Username già utilizzato"});
-                        }else{
-                           var  lista = new Array();
-                            await utenti.insertOne({username:user,password:hash,favCity:lista});
-                            res.render("login",{error:null});
+                        var utente = await utenti.findOne({ username: user });
+                        if (utente) {
+                            res.render("register", { error: "Username già utilizzato" });
+                        } else {
+                            var lista = new Array();
+                            await utenti.insertOne({ username: user, password: hash, favCity: lista });
+                            res.render("login", { error: null });
                         }
-    
+
                     }
-    
+
                 });
 
 
 
 
 
-        }else{
-            res.render("register",{error:"Le password non corrispondono"});
+        } else {
+            res.render("register", { error: "Le password non corrispondono" });
         }
 
 
-    }else{
-        res.render("register",{error:"Compilare i Campi Necessari"});
+    } else {
+        res.render("register", { error: "Compilare i Campi Necessari" });
     }
 });
 
@@ -183,68 +183,70 @@ app.get("/logout", (req, res) => {
 
 app.get("/favouriteCities", (req, res) => {
 
-    if(req.session.loggato==true){
-         //Get city of user
-         utente = req.session.utente;
-         lista = utente.favCity;
+    if (req.session.loggato == true) {
+        //Get city of user
+        utente = req.session.utente;
+        lista = utente.favCity;
 
-         if(!lista){
-            res.render("favCities",{cityList:null,error:"Lista non disponibile"});
-         }else{
+        if (!lista) {
+            res.render("favCities", { cityList: null, error: "Lista non disponibile" });
+        } else {
             //city loop
-            
-           if(lista.length == 0){
-            res.render("favCities",{cityList : null , error:"Nessuna Città nei preferiti"});
-           }else{
-            var listaMeteo = [] ;
-            let promises = [];
-            //console.log(lista);
-            for (let i in lista){
-                promises.push( 
-                axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${lista[i]}&appid=${api_waeather_key}&units=metric&lang=it`)
-                    .then(info => {
-                        info = info.data;
-                        const { icon, description } = info.weather[0];
-                        const { temperature, humidity } = info.main;
-                        const { speed } = info.wind;
-                        var json  ={
-                            name : lista[i],
-                            temp : temperature,
-                            hum : humidity,
-                            wind :speed,
-                            description : description,
-                            icon : icon
-                        }
-                        //console.log(json);
-                        listaMeteo.push(json);
-                        console.log("info :" ,listaMeteo); 
-                    })
-                    .catch(error => {
-                        console.log(error.message);
-                        //res.send({ error: "Errore" });
-                    })
-                )     
-            }
-            
-            
-            //aspetto tutte le risposte
-            Promise.all(promises).then(() =>{
-                console.log(listaMeteo);
-                res.render("favCities",{cityList : listaMeteo , error:null});
 
-            } );
-            
-           }
-           
+            if (lista.length == 0) {
+                res.render("favCities", { cityList: null, error: "Nessuna Città nei preferiti" });
+            } else {
+                var listaMeteo = [];
+                let promises = [];
+                //console.log(lista);
+                for (let i in lista) {
+                    promises.push(
+                        axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${lista[i]}&appid=${api_waeather_key}&units=metric&lang=it`)
+                            .then(info => {
+                                info = info.data;
+                                const { icon, description } = info.weather[0];
+                                const { temp, humidity } = info.main;
+                                const { speed } = info.wind;
+                                var json = {
+                                    name: lista[i],
+                                    temp: Math.floor(temp),
+                                    hum: humidity,
+                                    wind: speed,
+                                    description: description,
+                                    icon: icon
+                                }
+
+                                listaMeteo.push(json);
+
+                            })
+                            .catch(error => {
+                                console.log(error.message);
+                                res.send({ error: "Errore" });
+                            })
+                    )
+                }
+
+
+                //aspetto tutte le risposte
+                Promise.all(promises).then(() => {
+                    // console.log(listaMeteo);
+                    res.render("favCities", { cityList: listaMeteo, error: null });
+
+                });
+
+            }
+
         }
 
-    }else{
-        res.render('login', {cityList:null, error: "Devi Essere Loggato" });
+    } else {
+        res.render('login', { cityList: null, error: "Devi Essere Loggato" });
     }
 
 
-   
+
 });
+
+
 
 //-------------------------------
 
@@ -291,6 +293,49 @@ app.get("/api/getForecast", (req, res) => {
             console.log(error.message);
             res.send({ error: "Errore" });
         });
+
+});
+
+app.get("/api/favCity", (req, res) => {
+
+    var cityname = req.query.city;
+
+    user = req.session.utente;
+    lista = user.favCity;
+    if (lista.includes(cityname)) {
+        var index = lista.indexOf(cityname);
+        if (index !== -1) {
+            lista.splice(index, 1);
+        }
+        st = "removed";
+        ;
+    } else {
+        lista.push(cityname);
+        st = "added"
+
+    }
+    req.session.utente.favCity = lista;
+    
+    MongoClient.connect(mongo_url,
+        {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        }, async (err, client) => {
+            if (err) {
+                console.log(err);
+            } else {
+                const db = client.db('PWM');
+                const utenti = db.collection('utenti');
+                var nuoviValori = { $set: { favCity: lista } };
+                await utenti.updateOne({ username: user.username }, nuoviValori, { upsert: true }, function (err, res) {
+                    if (err) throw err;
+                })
+
+            }
+
+        });
+
+    res.send({ status: st });
 
 });
 //-------------------------------

@@ -114,9 +114,21 @@ function showErrorModal(txt) {
     });
 }
 
-function addFav() {
-    cityName = document.getElementById('city');
+async function addFav() {
+    cityName = document.getElementById('city').innerText;
+    var btn = document.getElementById('favBtn');
 
-    //send cityName
+    //send cityName 
+    try {
+     var res =   await request(`/api/favCity?city=${cityName}`);
+        if(res.status == "removed"){
+           btn.style.backgroundColor = null;
 
+        }else{
+            btn.style.backgroundColor = "#ffc400";
+        }
+    } catch (err) {
+        console.log(err);
+    }
+    
 }

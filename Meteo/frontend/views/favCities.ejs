@@ -79,7 +79,20 @@
       <% if(cityList) { %>
         <div id='cities' class="row">
            <!-- Loop load citys --> 
+           <% for(var i=0; i< cityList.length; i++) {%>
+            
+            <div class="weather-info">
+              <h3><%= cityList[i].name %></h3>
+             <p>Temperatura : <%= cityList[i].temp %>°C</p>
+              <img src="https://openweathermap.org/img/wn/<%= cityList[i].icon %>.png"  id="icon" class="weather-icon" alt="weather-icon">
+              <p><%= cityList[i].description %></p>
+              <p>Umidit&agrave; : <%= cityList[i].hum %> %</p>
+              <p>Vento : <%= cityList[i].wind %> km/h</p>
+              
+            </div>
 
+            <hr class="featurette-divider">
+         <% } %>
 
         </div>
 
