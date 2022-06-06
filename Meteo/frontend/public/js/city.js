@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     cityName = urlParams.get("city");
     if (cityName != '') {
         response = await getWeatherInfoCity(cityName);
-        console.log(response);
+
         if (response.data.error == null) { // Richiesta ok
             var latitude = response.data.coord.lat;
             var longitude = response.data.coord.lon;
@@ -28,6 +28,28 @@ document.addEventListener('DOMContentLoaded', async () => {
             response = await getWeatherForecast(latitude, longitude);
 
             showForecast(response);
+
+            //Check if the user is logged
+
+            res = await checkLogged();
+            var btn = document.getElementById('favBtn');
+            if (res.loggato == true) {
+                //check if the city is in favourite
+                var list = res.user.favCity;
+                //console.log(list)
+
+                if (list.includes(cityName)) {
+
+                    btn.innerHTML = '<i class="bi bi-star-fill"></i>'
+                    btn.style.backgroundColor = "#ffc400";
+                } else {
+                    btn.innerHTML = `<i class="bi bi-star"></i>`;
+                }
+
+            } else {
+                btn.classList.add('disabled');
+            }
+
         } else {
             //Show Modal 
             showErrorModal("Città inesistente");
@@ -79,6 +101,7 @@ function insertHTML(div, forecast, index) {
                         <div> Temperatura : ${Math.floor(forecast.main.temp)} °C</div>
                         <div>${weather.description} </div>
                     </div>`;
+
 }
 
 function showErrorModal(txt) {
@@ -89,4 +112,11 @@ function showErrorModal(txt) {
     errorModal._element.addEventListener('hidden.bs.modal', function (e) {
         window.location.replace("/");
     });
+}
+
+function addFav() {
+    cityName = document.getElementById('city');
+
+    //send cityName
+
 }

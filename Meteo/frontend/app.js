@@ -52,7 +52,7 @@ app.get("/map", (req, res) => {
 
 app.get("/login", (req, res) => {
     if(req.session.loggato==true){
-        console.log("utente gia loggato")
+        
         res.redirect("/");
     }else{
         res.render('login', { error: null });
@@ -62,7 +62,7 @@ app.get("/login", (req, res) => {
 
 app.get("/register", (req, res) => {
     if(req.session.loggato==true){
-        console.log("utente gia loggato")
+        
         res.redirect("/");
     }else{
         res.render('register', { error: null });
@@ -77,10 +77,10 @@ app.get("/city", (req, res) => {
 app.get("/logged", (req, res) => {
     
     if (req.session.loggato == true) {
-        var user = req.session.utente.username;
-        res.send({ username: user, loggato: true });
+        var user = req.session.utente;
+        res.send({ user: user, loggato: true });
     } else {
-        res.send({ username: null, loggato: false });
+        res.send({ user: null, loggato: false });
     }
 
 });
@@ -148,11 +148,11 @@ app.post("/register",(req,res)=>{
                         const db = client.db('PWM');
                         const utenti = db.collection('utenti');
                         var utente = await utenti.findOne({username:user});
-
                         if(utente){
                             res.render("register",{error:"Username già utilizzato"});
                         }else{
-                            await utenti.insertOne({username:user,password:hash});
+                           var  lista = new Array();
+                            await utenti.insertOne({username:user,password:hash,favCity:lista});
                             res.render("login",{error:null});
                         }
     
@@ -185,10 +185,61 @@ app.get("/favouriteCities", (req, res) => {
 
     if(req.session.loggato==true){
          //Get city of user
+         utente = req.session.utente;
+         lista = utente.favCity;
 
-        res.render("favCities",{});
+         if(!lista){
+            res.render("favCities",{cityList:null,error:"Lista non disponibile"});
+         }else{
+            //city loop
+            
+           if(lista.length == 0){
+            res.render("favCities",{cityList : null , error:"Nessuna Città nei preferiti"});
+           }else{
+            var listaMeteo = [] ;
+            let promises = [];
+            //console.log(lista);
+            for (let i in lista){
+                promises.push( 
+                axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${lista[i]}&appid=${api_waeather_key}&units=metric&lang=it`)
+                    .then(info => {
+                        info = info.data;
+                        const { icon, description } = info.weather[0];
+                        const { temperature, humidity } = info.main;
+                        const { speed } = info.wind;
+                        var json  ={
+                            name : lista[i],
+                            temp : temperature,
+                            hum : humidity,
+                            wind :speed,
+                            description : description,
+                            icon : icon
+                        }
+                        //console.log(json);
+                        listaMeteo.push(json);
+                        console.log("info :" ,listaMeteo); 
+                    })
+                    .catch(error => {
+                        console.log(error.message);
+                        //res.send({ error: "Errore" });
+                    })
+                )     
+            }
+            
+            
+            //aspetto tutte le risposte
+            Promise.all(promises).then(() =>{
+                console.log(listaMeteo);
+                res.render("favCities",{cityList : listaMeteo , error:null});
+
+            } );
+            
+           }
+           
+        }
+
     }else{
-        res.render('login', { error: "Devi Essere Loggato" });
+        res.render('login', {cityList:null, error: "Devi Essere Loggato" });
     }
 
 
