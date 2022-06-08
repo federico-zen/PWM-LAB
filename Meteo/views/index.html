@@ -50,32 +50,34 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="homepage" href="/"><i class="bi-house-door"></i>HOME</a>
+              <a class="nav-link active" aria-current="page" href="/"><i class="bi-house-door"></i>HOME</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link " aria-current="map" href="/map"><i class="bi bi-map"></i>MAPPA</a>
+              <a class="nav-link " aria-current="page" href="/map"><i class="bi bi-map"></i>MAPPA</a>
             </li>
 
             <li class="nav-item">
-              <a class="nav-link disabled " id="favouriteCities" aria-current="map" href="/favouriteCities"><i
+              <a class="nav-link disabled " id="favouriteCities" aria-current="page" href="/favouriteCities"><i
                   class="bi bi-star-fill"></i>CITT&Agrave; </a>
             </li>
-
-            <form class="d-flex" action="/city" method="GET">
-              <div class="input-group">
-                <input class="form-control" name="city" type="search" placeholder="Cerca Citt&agrave;"
-                  aria-label="Cerca Citt&agrave;">
-                <button type="submit" class="btn btn-secondary"><i class="bi-search"></i></button>
-              </div>
-            </form>
+            <li class="nav-item">
+              <form class="d-flex" action="/city" method="GET">
+                <div class="input-group">
+                  <input class="form-control" name="city" type="search" placeholder="Cerca Citt&agrave;"
+                    aria-label="Cerca Citt&agrave;">
+                  <button type="submit" class="btn btn-secondary"><i class="bi-search"></i></button>
+                </div>
+              </form>
+            </li>
 
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li class="nav-item">
-              <a class="nav-link " aria-current="login" href="/login"><i class="bi bi-person-plus"></i> Login</a>
+              <a class="nav-link " aria-current="page" href="/login"><i class="bi bi-person-plus"></i> Login</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link " aria-current="register" href="/register"><i class="bi bi-person-plus"></i> Register</a>
+              <a class="nav-link " aria-current="page" href="/register"><i class="bi bi-person-plus"></i>
+                Register</a>
             </li>
           </ul>
         </div>
