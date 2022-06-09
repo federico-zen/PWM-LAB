@@ -1,7 +1,16 @@
+*{
+  font-family: 'Architects Daughter', cursive;
+}
+
 /* BUTTON*/
 .btn-secondary:hover {
   color: black;
   background-color: #ffc400;
+}
+
+.bg-secondary{
+ 
+  background-color: #ffc400 !important;
 }
 
 /* END BUTTON*/

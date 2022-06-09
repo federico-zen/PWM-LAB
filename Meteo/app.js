@@ -42,6 +42,10 @@ app.get("/", (req, res) => {
     res.render('index.html');
 });
 
+app.get("/index", (req, res) => {
+    res.render('index.html');
+});
+
 app.get("/index.html", (req, res) => {
     res.render('index.html');
 });

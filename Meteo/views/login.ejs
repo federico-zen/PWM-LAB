@@ -19,6 +19,10 @@
   <!-- Custom CSS -->
   <link rel="stylesheet" href="css/style.css">
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap" rel="stylesheet">
+
 
 
 
@@ -82,23 +86,23 @@
     <div class="rounded d-flex justify-content-center">
       <div class="col-md-4 col-sm-12 shadow-lg p-5 bg-light">
         <div class="text-center">
-          <h3 class="text-primary">Login</h3>
+          <h3 class="text-secondary">Login</h3>
         </div>
         <form action="/auth" method="POST">
           <div class="p-4">
             <div class="input-group mb-3">
-              <span class="input-group-text bg-primary"><i class="bi bi-person-plus-fill text-white"></i></span>
-              <input type="text" class="form-control" placeholder="Username" name="username" >
+              <span class="input-group-text bg-secondary"><i class="bi bi-person-plus-fill text-white"></i></span>
+              <input type="text" class="form-control" placeholder="Username" name="username">
             </div>
             <div class="input-group mb-3">
-              <span class="input-group-text bg-primary"><i class="bi bi-key-fill text-white"></i></span>
+              <span class="input-group-text bg-secondary"><i class="bi bi-key-fill text-white"></i></span>
               <input type="password" class="form-control" placeholder="password " name="password">
             </div>
-            <button class="btn btn-primary text-center mt-2" type="submit">
+            <button class="btn btn-secondary text-center mt-2" type="submit">
               Login
             </button>
             <p class="text-center mt-5">Non Sei Registrato ?
-              <span class="text-primary"><a href="/register">Registrati</a></span>
+              <span class="text-secondary"><a href="/register">Registrati</a></span>
             </p>
 
           </div>
@@ -152,7 +156,7 @@
 
 
   <!-- Custom JS -->
-  <script src="js/dark-mode.js" ></script>
+  <script src="js/dark-mode.js"></script>
   <% if (error) { %>
     <script>
       //Script gestione modale
